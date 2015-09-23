@@ -1,7 +1,14 @@
 import argparse
+import os
+import inspect
+
+from beacon.objects.person import Person
+from beacon.db import create_db
 
 
 __version__ = '0.1'
+ASSESTS_PATH = os.path.realpath(os.path.join(os.path.dirname(inspect.stack()[0][1]), 'assets'))
+DB_INITIALIZED = False
 
 
 def parse_arguments():
@@ -31,3 +38,46 @@ def parse_arguments():
 
     args = parser.parse_args()
     return args
+
+
+def find_online_presence(first_name, last_name, middle_name=None, domains=None,
+                         linkedin_url=None, angellist_url=None, twitter_url=None):
+    """
+    Discover a single person's online presence, if possible.
+
+    Attempts to find accurate user information from the following services/service types:
+    #. Email (Gmail, Outlook, Hotmail, Yahoo)
+    #. Web Domains (personal or corporate)
+    #. LinkedIn
+    #. AngelList
+    #. Twitter
+
+    :param first_name: The person's first name
+    :param last_name: The person's last name
+    :param middle_name: The person's middle name
+    :param domains: Domains, personal or corporate, that the person associates with
+    :param linkedin_url: The person's profile URL
+    :param angellist_url: The person's AngelList URL
+    :param twitter_url: The person's Twitter URL
+    :return: JSON representation of the person's online presence information
+    """
+    # Create and initialize the database.  TODO: Make thread safe for future bulk processing
+    global DB_INITIALIZED
+    if not DB_INITIALIZED:
+        create_db()
+        DB_INITIALIZED = True
+
+    # Create our person to be found
+    hidden_person = Person(
+        first_name,
+        last_name,
+        middle_name,
+        domains,
+        linkedin_url,
+        angellist_url,
+        twitter_url
+    )
+    # Find them
+    hidden_person.locate()
+
+    # TODO: return JSON or Person object?

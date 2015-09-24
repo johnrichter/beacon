@@ -3,12 +3,12 @@ import os
 import inspect
 
 from beacon.objects.person import Person
-from beacon.db import create_db
-
 
 __version__ = '0.1'
 ASSESTS_PATH = os.path.realpath(os.path.join(os.path.dirname(inspect.stack()[0][1]), 'assets'))
-DB_INITIALIZED = False
+
+from beacon.db import create_db
+create_db()
 
 
 def parse_arguments():
@@ -61,11 +61,6 @@ def find_online_presence(first_name, last_name, middle_name=None, domains=None,
     :param twitter_url: The person's Twitter URL
     :return: JSON representation of the person's online presence information
     """
-    # Create and initialize the database.  TODO: Make thread safe for future bulk processing
-    global DB_INITIALIZED
-    if not DB_INITIALIZED:
-        create_db()
-        DB_INITIALIZED = True
 
     # Create our person to be found
     hidden_person = Person(

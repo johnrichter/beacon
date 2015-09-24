@@ -1,6 +1,7 @@
-from beacon import parse_arguments
+import beacon
 
 
 if __name__ == '__main__':
-    arguments = parse_arguments()
+    arguments = beacon.parse_arguments()
     print(arguments)
+    # beacon.find_online_presence()

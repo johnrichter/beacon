@@ -1,8 +1,10 @@
 import argparse
 import os
 import inspect
+import json
 
 from beacon.objects.person import Person
+from beacon.objects.person_locator import PersonLocator
 
 __version__ = '0.1'
 ASSESTS_PATH = os.path.realpath(os.path.join(os.path.dirname(inspect.stack()[0][1]), 'assets'))
@@ -23,7 +25,7 @@ def parse_arguments():
     # Optional arguments
     parser.add_argument('-m', '--middle_name', type=str, action='store',
                         help="The person's middle name")
-    parser.add_argument('-d', '--domain', action='store', nargs='+',
+    parser.add_argument('-d', '--domains', action='store', nargs='+',
                         help='One or more affiliated domains owned or used by or used by the '
                              'person')
     parser.add_argument('-l', '--linkedin_url', type=str, action='store',
@@ -72,7 +74,11 @@ def find_online_presence(first_name, last_name, middle_name=None, domains=None,
         angellist_url,
         twitter_url
     )
-    # Find them
-    hidden_person.locate()
 
-    # TODO: return JSON
+    # Create a locator to find the person
+    locator = PersonLocator(hidden_person)
+
+    # Find them. Do whatever it takes (brute_force=True)
+    locator.locate(brute_force=True)
+
+    return json.dumps(hidden_person.__dict__)

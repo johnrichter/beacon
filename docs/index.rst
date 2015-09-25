@@ -9,7 +9,7 @@ Welcome to Beacon's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    _static/modules
 

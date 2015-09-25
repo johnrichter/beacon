@@ -22,7 +22,6 @@ class Person(object):
         else:
             self.twitter_url = ""
 
-
     def has_middle_name(self):
         """
         Determine if a `Person` has a middle name

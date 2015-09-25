@@ -192,5 +192,6 @@ pseudoxml:
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 rst:
-	sphinx-apidoc -f ../beacon -o _static
+	rm -rf ./_static
+	SPHINX_APIDOC_OPTIONS='members,private-members,undoc-members,show-inheritance' sphinx-apidoc -f ../beacon -o _static
 	

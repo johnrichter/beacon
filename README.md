@@ -1,6 +1,9 @@
 # beacon
 A web presence aggregator for people discovery
 
+### Run
+`python homing_beacon.py -h`
+
 ### Develop
 `python -m pip install -r requirements.txt`
 

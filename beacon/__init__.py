@@ -9,6 +9,7 @@ from beacon.objects.person_locator import PersonLocator
 __version__ = '0.1'
 ASSESTS_PATH = os.path.realpath(os.path.join(os.path.dirname(inspect.stack()[0][1]), 'assets'))
 
+# TODO: Move to real DB or fix the way we initialize the DB so it doesn't happen on import
 from beacon.db import create_db
 create_db()
 

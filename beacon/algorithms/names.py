@@ -5,6 +5,12 @@ from beacon.db.models import Name
 
 
 def retrieve_nicknames_for_name(name):
+    """
+    Retrieve nicknames for `name` from the database
+
+    :param name: The name that might have nicknames
+    :return: A list of nicknames.  Empty list if nicknames were not found.
+    """
     nick_names = []
     with db_connect() as session:
         # Look for the name in the database and append all nicknames to our nick_names list
@@ -18,26 +24,26 @@ def retrieve_nicknames_for_name(name):
 
 def enumerate_full_name_combinations(first_name, last_name, middle_name=None):
     """
-        Enumerate a person's full name in the common ways full names can be represented.
-        Includes common nicknames for the person's first name and middle name/initial when the
-        person has a middle name.  Full names generated are intended to be compared to
-        full names obtained from API services, email servers, etc.
+    Enumerate a person's full name in the common ways full names can be represented.
+    Includes common nicknames for the person's first name and middle name/initial when the
+    person has a middle name.  Full names generated are intended to be compared to
+    full names obtained from API services, email servers, etc.
 
-        For example::
-        Variants of *James Herbert Bond* include, but aren't limited to the following
-            * James Bond
-            * Bond James
-            * James Herbert Bond
-            * James H Bond
-            * Jimmy Bond
-            * Bond, James
-            * Bond, James Herbert
-            * Bond, Jim Herbert
+    For example::
+    Variants of *James Herbert Bond* include, but aren't limited to the following
+    * James Bond
+    * Bond James
+    * James Herbert Bond
+    * James H Bond
+    * Jimmy Bond
+    * Bond, James
+    * Bond, James Herbert
+    * Bond, Jim Herbert
 
-        .. TODO: Migrate to use the `get_[f]ml_name_variations()` functions
+    .. TODO: Migrate to use the `get_[f]ml_name_variations()` functions
 
-        :return: A frozenset() of all full names
-        """
+    :return: A frozenset() of all full names
+    """
     fml_patterns = [
         '{f} {m} {l}',   '{m} {l} {f}',   '{l} {f} {m}',
         '{f}, {m}, {l}', '{m}, {l}, {f}', '{l}, {f}, {m}',
@@ -72,6 +78,15 @@ def enumerate_full_name_combinations(first_name, last_name, middle_name=None):
 
 
 def get_fml_name_variations(first_name, middle_name, last_name, include_initials=False):
+    """
+    Generate different variations of a full name containing the first, middle, last name.
+
+    :param first_name: The first name
+    :param middle_name: The middle name
+    :param last_name: The last name
+    :param include_initials: Include variations with names abbreviated by their first letter
+    :return: A list of (first_name, middle_name, last_name) tuples
+    """
     variations = [(first_name, middle_name, last_name)]
     if include_initials:
         variations.extend([
@@ -88,6 +103,14 @@ def get_fml_name_variations(first_name, middle_name, last_name, include_initials
 
 
 def get_fl_name_variations(first_name, last_name, include_initials=False):
+    """
+    Generate different variations of a full name containing only the first and last name.
+
+    :param first_name: The first name
+    :param last_name: The last name
+    :param include_initials: Include variations with names abbreviated by their first letter
+    :return: A list of (first_name, last_name) tuples
+    """
     variations = [(first_name, last_name)]
     if include_initials:
         variations.extend([

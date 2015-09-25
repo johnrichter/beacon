@@ -75,4 +75,4 @@ def find_online_presence(first_name, last_name, middle_name=None, domains=None,
     # Find them
     hidden_person.locate()
 
-    # TODO: return JSON or Person object?
+    # TODO: return JSON

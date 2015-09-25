@@ -9,10 +9,12 @@ Base = declarative_base()
 
 # Many-to-Many table to track a Name's Nicknames
 """
-Column   Type
-======   ====
+========== ===========
+Column     Type
+---------- -----------
 RealNameID Integer
 NickNameID String(100)
+========== ===========
 """
 realname_nickname_association_table = Table(
     'RealnameNicknameAssociation', Base.metadata,
@@ -25,11 +27,12 @@ class Name(Base):
     """
     A model to represent a first name and its alternative names (i.e. nicknames)
 
-    Column   Type
-    ======   ====
-    ID       Integer
-    RealName String(100)
-
+    ========  ===========
+    Column    Type
+    --------  -----------
+    ID        Integer
+    RealName  String(100)
+    ========  ===========
     """
     __tablename__ = 'Names'
 

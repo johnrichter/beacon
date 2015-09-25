@@ -21,6 +21,9 @@ def db_connect():
 
 
 def init_db():
+    """
+    Create all database tables
+    """
     from .models import (
         Base,
         realname_nickname_association_table,
@@ -30,6 +33,9 @@ def init_db():
 
 
 def destroy_db():
+    """
+    Drop all database tables
+    """
     from .models import (
         Base,
         realname_nickname_association_table,
@@ -39,6 +45,9 @@ def destroy_db():
 
 
 def create_db():
+    """
+    Initialize the database and populate the Names table.
+    """
     import os
     import csv
     from beacon import ASSESTS_PATH

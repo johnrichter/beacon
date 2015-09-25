@@ -24,12 +24,16 @@ class TestNameAlgorithms(unittest.TestCase):
         self.middle_name = 'Herbert'
         self.last_name = 'Bond'
 
-    def test_retrieve_nicknames_for_name(self):
+    def test_retrieve_nicknames_for_name_with_successful_name(self):
         generated_names = retrieve_nicknames_for_name(self.first_name)
         generated_names.sort()
         expected_names = ['Jim', 'Jimmie', 'Jimmy', 'Jamie']
         expected_names.sort()
         self.assertListEqual(generated_names, expected_names)
+
+    def test_retrieve_nicknames_for_name_with_fake_name(self):
+        generated_names = retrieve_nicknames_for_name('abcdefg')
+        self.assertListEqual(generated_names, [])
 
     def test_enumerate_full_name_combinations_first_last(self):
         generated_names = enumerate_full_name_combinations(self.first_name, self.last_name, '')

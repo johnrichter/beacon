@@ -24,4 +24,7 @@ class Person(object):
 
 
     def has_middle_name(self):
+        """
+        Determine if a `Person` has a middle name
+        """
         return len(self.middle_name) > 0

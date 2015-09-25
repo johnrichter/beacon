@@ -25,6 +25,9 @@ class TestNameAlgorithms(unittest.TestCase):
         self.last_name = 'Bond'
 
     def test_retrieve_nicknames_for_name_with_successful_name(self):
+        """
+        Can retrieve nicknames for a name that we know has nicknames?
+        """
         generated_names = retrieve_nicknames_for_name(self.first_name)
         generated_names.sort()
         expected_names = ['Jim', 'Jimmie', 'Jimmy', 'Jamie']
@@ -32,22 +35,36 @@ class TestNameAlgorithms(unittest.TestCase):
         self.assertListEqual(generated_names, expected_names)
 
     def test_retrieve_nicknames_for_name_with_fake_name(self):
+        """
+        Do we receive an empty list for a name without nicknames?
+        """
         generated_names = retrieve_nicknames_for_name('abcdefg')
         self.assertListEqual(generated_names, [])
 
     def test_enumerate_full_name_combinations_first_last(self):
+        """
+        Are simple combinations of first and last names generated?
+        """
         generated_names = enumerate_full_name_combinations(self.first_name, self.last_name, '')
         expected_names_subset = ['James Bond', 'Bond James', 'Bond, James']
         for name in expected_names_subset:
             self.assertTrue(name in generated_names)
 
     def test_enumerate_full_name_combinations_alternate_first_names(self):
+        """
+        Are the simple combinations of first and last name containing alternate first names
+        generated?
+        """
         generated_names = enumerate_full_name_combinations(self.first_name, self.last_name)
         expected_names_subset = ['Jim Bond', 'Jimmie Bond', 'Jimmy Bond', 'Jamie Bond']
         for name in expected_names_subset:
             self.assertTrue(name in generated_names)
 
     def test_enumerate_full_name_combinations_first_middle_last(self):
+        """
+        Are a sampling of the complex combinations of first, middle, and last names generated?
+        :return:
+        """
         generated_names = enumerate_full_name_combinations(
             self.first_name, self.last_name,  self.middle_name
         )
@@ -60,6 +77,10 @@ class TestNameAlgorithms(unittest.TestCase):
             self.assertTrue(name in generated_names)
 
     def test_enumerate_full_name_combinations_first_middle_initial_last(self):
+        """
+        Are a sample of complex combinations of first, middle, middle initial, and last names
+        generated?
+        """
         generated_names = enumerate_full_name_combinations(
             self.first_name, self.last_name, self.middle_name
         )
@@ -72,6 +93,9 @@ class TestNameAlgorithms(unittest.TestCase):
             self.assertTrue(name in generated_names)
 
     def test_get_fml_username_variations(self):
+        """
+        Are all of the first, middle, and last name variations generated, including initials?
+        """
         generated_usernames = get_fml_name_variations(
             self.first_name, self.middle_name, self.last_name, True
         )
@@ -85,6 +109,10 @@ class TestNameAlgorithms(unittest.TestCase):
         self.assertListEqual(generated_usernames, expected_usernames)
 
     def test_get_fl_username_variations(self):
+        """
+        Are all of hte first and last name variations generated, including initials?
+        :return:
+        """
         generated_usernames = get_fl_name_variations(
             self.first_name, self.last_name, True
         )
@@ -96,6 +124,10 @@ class TestNameAlgorithms(unittest.TestCase):
         self.assertListEqual(generated_usernames, expected_usernames)
 
     def test_determine_probable_usernames_for_full_name(self):
+        """
+        Are a subset of username combinations and a subset of name/symbol combinations generated?
+        :return:
+        """
         generated_usernames = determine_probable_usernames_for_full_name(
             self.first_name, self.last_name, self.middle_name
         )
@@ -108,8 +140,10 @@ class TestNameAlgorithms(unittest.TestCase):
         for username in expected_usernames_subset:
             self.assertTrue(username in generated_usernames)
 
+        # Names in the order of `Last Middle First` should not be generated
         self.assertTrue('BondHerbertJames' not in generated_usernames)
 
+        # Usernames should not start or end with special characters
         for username in generated_usernames:
             self.assertFalse(username.startswith('.'))
             self.assertFalse(username.startswith('_'))

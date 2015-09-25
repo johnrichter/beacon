@@ -1,6 +1,19 @@
+import unicodedata
 
 from beacon.db import db_connect
 from beacon.db.models import Name
+
+
+def retrieve_nicknames_for_name(name):
+    nick_names = []
+    with db_connect() as session:
+        # Look for the name in the database and append all nicknames to our nick_names list
+        db_name = session.query(Name).filter_by(real_name=name).first()
+        if db_name:
+            for nick in db_name.nick_names:
+                nick_names.append(nick.real_name)
+
+    return nick_names
 
 
 def enumerate_full_name_combinations(first_name, last_name, middle_name=None):
@@ -21,6 +34,8 @@ def enumerate_full_name_combinations(first_name, last_name, middle_name=None):
             * Bond, James Herbert
             * Bond, Jim Herbert
 
+        .. TODO: Migrate to use the `get_[f]ml_name_variations()` functions
+
         :return: A frozenset() of all full names
         """
     fml_patterns = [
@@ -37,13 +52,9 @@ def enumerate_full_name_combinations(first_name, last_name, middle_name=None):
 
     # TODO: Remove some of the noise via nickname probability mappings
     # Build a list of potential first names. E.g. Robert > Bob or Johnathan > John > Jon
+    nick_names = retrieve_nicknames_for_name(first_name)
     first_names = [first_name]
-    with db_connect() as session:
-        # Look for the first_name in the database and append all nicknames to our fist_name list
-        db_name = session.query(Name).filter_by(real_name=first_name).first()
-        if db_name:
-            for nick in db_name.nick_names:
-                first_names.append(nick.real_name)
+    first_names.extend(nick_names)
 
     # Generate our list of potential full name variants
     generated_names = set()
@@ -58,3 +69,98 @@ def enumerate_full_name_combinations(first_name, last_name, middle_name=None):
             generated_names.add(pattern.format(f=first, m=middle_name[0], l=last_name))
 
     return frozenset(generated_names)
+
+
+def get_fml_name_variations(first_name, middle_name, last_name, include_initials=False):
+    variations = [(first_name, middle_name, last_name)]
+    if include_initials:
+        variations.extend([
+            (first_name[0], middle_name, last_name),
+            (first_name, middle_name[0], last_name),
+            (first_name, middle_name, last_name[0]),
+            (first_name[0], middle_name[0], last_name),
+            (first_name[0], middle_name, last_name[0]),
+            (first_name, middle_name[0], last_name[0]),
+            (first_name[0], middle_name[0], last_name[0])
+        ])
+
+    return variations
+
+
+def get_fl_name_variations(first_name, last_name, include_initials=False):
+    variations = [(first_name, last_name)]
+    if include_initials:
+        variations.extend([
+            (first_name[0], last_name), (first_name, last_name[0]), (first_name[0], last_name[0])
+        ])
+
+    return variations
+
+
+def determine_probable_usernames_for_full_name(first_name, last_name, middle_name=None):
+    """
+    Build a simple list of user names based on a person's full name.
+
+    Limit our formatting to only the special symbols in ``._`` and alphanumeric characters in
+    ``a-zA-Z0-9``.  Usernames of services such as Gmail, Yahoo, Outlook.com, LinkedIn, AngelList,
+    and Twitter are restricted to these characters despite RFCs allowing more characters (
+    including unicode in some cases).
+
+    Email: `RFC 3696`_
+
+    .. _RFC 3696: https://tools.ietf.org/html/rfc3696
+
+    .. TODO:
+    .. * Expand our guesses to include numbers once we obtain age, birthday, etc
+    .. * Translate non-latin characters to their latin equivalent
+    .. *
+
+    :param first_name: The first name
+    :param last_name: The last name
+    :param middle_name: The middle name
+    :return: A list of user names
+    """
+
+    fml_pattern = '{f}{s1}{m}{s2}{l}'
+    common_special_characters = ['.', '_', '']
+    name_variations = []
+    generated_usernames = []
+    have_middle_name = len(middle_name) > 0 if middle_name else False
+
+    # Normalize characters in each name to their decomposed equivalents
+    first_name = ''.join([
+        c for c in unicodedata.normalize('NFKD', first_name) if not unicodedata.combining(c)
+    ])
+    last_name = ''.join([
+        c for c in unicodedata.normalize('NFKD', last_name) if not unicodedata.combining(c)
+    ])
+    middle_name = ''.join([
+        c for c in unicodedata.normalize('NFKD', middle_name) if not unicodedata.combining(c)
+    ]) if have_middle_name else None
+
+    # Build a list of name variations. E.g. (James, Bond), (J, Bond), or (J, H, Bond)
+    if have_middle_name:
+        name_variations.extend(get_fml_name_variations(first_name, middle_name, last_name, True))
+        name_variations.extend(get_fml_name_variations(last_name, first_name, middle_name, True))
+        name_variations.extend(get_fml_name_variations(middle_name, last_name, first_name, True))
+
+    name_variations.extend(get_fl_name_variations(first_name, last_name, True))
+    name_variations.extend(get_fl_name_variations(last_name, first_name, True))
+
+    # Each variation is a potential username. E.g. JamesBond, JBond, or JHBond
+    for name in name_variations:
+        generated_usernames.append(''.join(name))
+
+        # Each part of the name can be separated by a special character
+        for symbol in common_special_characters:
+            if len(name) == 2:      # First and Last
+                generated_usernames.append(symbol.join(name))
+            elif len(name) == 3:    # First, Middle, and Last
+                first, middle, last = name
+                # We can have combinations of two symbols separating the names
+                for symbol2 in common_special_characters:
+                    generated_usernames.append(
+                        fml_pattern.format(f=first, m=middle, l=last, s1=symbol, s2=symbol2)
+                    )
+
+    return generated_usernames

@@ -82,9 +82,7 @@ class PersonLocator(object):
         and Twitter are restricted to these characters despite RFCs allowing more characters (
         including unicode in some cases).
 
-        Email: `RFC 3696`_
-
-        .. _RFC 3696: https://tools.ietf.org/html/rfc3696
+        Email: :rfc:`3696`
 
         .. todo::
             * Expand our variations to include numbers once we obtain age, birthday, etc

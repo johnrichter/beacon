@@ -4,6 +4,15 @@ beacon.objects package
 Submodules
 ----------
 
+beacon.objects.angellist_miner module
+-------------------------------------
+
+.. automodule:: beacon.objects.angellist_miner
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 beacon.objects.email_miner module
 ---------------------------------
 

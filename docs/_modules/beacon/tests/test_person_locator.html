@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.tests.test_person_locator &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="beacon" href="../../beacon.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">beacon</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../../beacon.html">beacon</a> &raquo;</li>
+      
+    <li>beacon.tests.test_person_locator</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for beacon.tests.test_person_locator</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">beacon.objects.person</span> <span class="kn">import</span> <span class="n">Person</span>
+<span class="kn">from</span> <span class="nn">beacon.objects.person_locator</span> <span class="kn">import</span> <span class="n">PersonLocator</span>
+
+
+<div class="viewcode-block" id="TestPersonLocator"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_person_locator.TestPersonLocator">[docs]</a><span class="k">class</span> <span class="nc">TestPersonLocator</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="TestPersonLocator.setUp"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_person_locator.TestPersonLocator.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locator</span> <span class="o">=</span> <span class="n">PersonLocator</span><span class="p">(</span><span class="n">Person</span><span class="p">(</span><span class="s">&#39;James&#39;</span><span class="p">,</span> <span class="s">&#39;Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Herbert&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="TestPersonLocator.test_enumerate_full_name_combinations_first_last"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_person_locator.TestPersonLocator.test_enumerate_full_name_combinations_first_last">[docs]</a>    <span class="k">def</span> <span class="nf">test_enumerate_full_name_combinations_first_last</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Are simple combinations of first and last names generated?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">_enumerate_full_name_representations</span><span class="p">()</span>
+        <span class="n">expected_names_subset</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;James Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Bond James&#39;</span><span class="p">,</span> <span class="s">&#39;Bond, James&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">expected_names_subset</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">full_name_representations</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestPersonLocator.test_enumerate_full_name_combinations_alternate_first_names"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_person_locator.TestPersonLocator.test_enumerate_full_name_combinations_alternate_first_names">[docs]</a>    <span class="k">def</span> <span class="nf">test_enumerate_full_name_combinations_alternate_first_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Are the simple combinations of first and last name containing alternate first names</span>
+<span class="sd">        generated?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">_enumerate_full_name_representations</span><span class="p">()</span>
+        <span class="n">expected_names_subset</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Jim Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Jimmie Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Jimmy Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Jamie Bond&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">expected_names_subset</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">full_name_representations</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestPersonLocator.test_enumerate_full_name_combinations_first_middle_last"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_person_locator.TestPersonLocator.test_enumerate_full_name_combinations_first_middle_last">[docs]</a>    <span class="k">def</span> <span class="nf">test_enumerate_full_name_combinations_first_middle_last</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Are a sampling of the complex combinations of first, middle, and last names generated?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">_enumerate_full_name_representations</span><span class="p">()</span>
+        <span class="n">expected_names_subset</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&#39;James Herbert Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Herbert Bond James&#39;</span><span class="p">,</span> <span class="s">&#39;Bond James Herbert&#39;</span><span class="p">,</span>
+            <span class="s">&#39;James, Herbert, Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Herbert, Bond, James&#39;</span><span class="p">,</span> <span class="s">&#39;Bond, James, Herbert&#39;</span><span class="p">,</span>
+            <span class="s">&#39;Bond, James Herbert&#39;</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">expected_names_subset</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">full_name_representations</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestPersonLocator.test_enumerate_full_name_combinations_first_middle_initial_last"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_person_locator.TestPersonLocator.test_enumerate_full_name_combinations_first_middle_initial_last">[docs]</a>    <span class="k">def</span> <span class="nf">test_enumerate_full_name_combinations_first_middle_initial_last</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Are a sample of complex combinations of first, middle, middle initial, and last names</span>
+<span class="sd">        generated?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">_enumerate_full_name_representations</span><span class="p">()</span>
+        <span class="n">expected_names_subset</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&#39;James H Bond&#39;</span><span class="p">,</span> <span class="s">&#39;H Bond James&#39;</span><span class="p">,</span> <span class="s">&#39;Bond James H&#39;</span><span class="p">,</span>
+            <span class="s">&#39;James, H, Bond&#39;</span><span class="p">,</span> <span class="s">&#39;H, Bond, James&#39;</span><span class="p">,</span> <span class="s">&#39;Bond, James, H&#39;</span><span class="p">,</span>
+            <span class="s">&#39;Bond, James H&#39;</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">expected_names_subset</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">full_name_representations</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestPersonLocator.test_determine_probable_usernames_for_full_name"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_person_locator.TestPersonLocator.test_determine_probable_usernames_for_full_name">[docs]</a>    <span class="k">def</span> <span class="nf">test_determine_probable_usernames_for_full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Are a subset of username combinations and a subset of name/symbol combinations generated?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">_enumerate_probable_usernames</span><span class="p">()</span>
+        <span class="n">expected_usernames_subset</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&#39;JamesBond&#39;</span><span class="p">,</span> <span class="s">&#39;James.Bond&#39;</span><span class="p">,</span> <span class="s">&#39;James_Bond&#39;</span><span class="p">,</span> <span class="s">&#39;J.Bond&#39;</span><span class="p">,</span> <span class="s">&#39;J.B&#39;</span><span class="p">,</span> <span class="s">&#39;James.B&#39;</span><span class="p">,</span> <span class="s">&#39;James_B&#39;</span><span class="p">,</span>
+            <span class="s">&#39;BondJames&#39;</span><span class="p">,</span> <span class="s">&#39;BJames&#39;</span><span class="p">,</span> <span class="s">&#39;B_James&#39;</span><span class="p">,</span> <span class="s">&#39;JamesHerbertBond&#39;</span><span class="p">,</span> <span class="s">&#39;JHerbertBond&#39;</span><span class="p">,</span> <span class="s">&#39;J.HerbertBond&#39;</span><span class="p">,</span>
+            <span class="s">&#39;J_HerbertBond&#39;</span><span class="p">,</span> <span class="s">&#39;JHerbert.Bond&#39;</span><span class="p">,</span> <span class="s">&#39;JHerbert_Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Bond_James.H&#39;</span><span class="p">,</span> <span class="s">&#39;BJH&#39;</span><span class="p">,</span> <span class="s">&#39;J.H.B&#39;</span><span class="p">,</span>
+            <span class="s">&#39;James_H_Bond&#39;</span><span class="p">,</span> <span class="s">&#39;Bond.J_Herbert&#39;</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">username</span> <span class="ow">in</span> <span class="n">expected_usernames_subset</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">username</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">probable_usernames</span><span class="p">)</span>
+
+        <span class="c"># Names in the order of `Last Middle First` should not be generated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s">&#39;BondHerbertJames&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">probable_usernames</span><span class="p">)</span>
+
+        <span class="c"># Usernames should not start or end with special characters</span>
+        <span class="k">for</span> <span class="n">username</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="o">.</span><span class="n">probable_usernames</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">username</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">username</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">username</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">username</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

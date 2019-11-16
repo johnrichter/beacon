@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.objects.social_miner &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="beacon" href="../../beacon.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">beacon</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../../beacon.html">beacon</a> &raquo;</li>
+      
+    <li>beacon.objects.social_miner</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for beacon.objects.social_miner</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="SocialMiner"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.social_miner.SocialMiner">[docs]</a><span class="k">class</span> <span class="nc">SocialMiner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An object to search LinkedIn, AngelList, and Twitter for accounts matching certain usernames</span>
+<span class="sd">    and email addresses and gathering account information about that individual.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Twitter does not support *obtaining* or *searching for* email addresses from **`any API</span>
+<span class="sd">        endpoint`_**. However may be able to parse the user&#39;s own description for email addresses.</span>
+<span class="sd">        It may be possible to use the *import my contacts* feature somehow to get around this</span>
+<span class="sd">        limitation. Other notable information we can gather is the user&#39;s name, profile picture,</span>
+<span class="sd">        and banner picture.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        AngelList allows lookup by URL slug (i.e. the link text a user has chosen for their profile,</span>
+<span class="sd">        e.g. James Bond could be using slug: james-bond) or MD5 hash of a user&#39;s email address.</span>
+<span class="sd">        Other notable information we can gather is blog_url, online_bio_url, twitter_url,</span>
+<span class="sd">        facebook_url, linkedin_url, angellist_url, dribble_url, github_url, resume_url,</span>
+<span class="sd">        profile picture, and full name.  We may be able to parse the bio, what_i_do</span>
+<span class="sd">        and what_ive_built, for email and username information.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        LinkedIn, for privacy and security reasons, has locked down on their API and doesn&#39;t allow</span>
+<span class="sd">        searching for users. Period.  They only expose the controls necessary to write third</span>
+<span class="sd">        party apps which act on behalf of users, only if authorized by that user.  The only thing we</span>
+<span class="sd">        could do is simulate interacting with the LinkedIn search while masquerading as a</span>
+<span class="sd">        real person with an account and scrape the results.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">    </span>
+<span class="sd">        Both Twitter and LinkedIn offer a *find my contacts* feature to find people by email</span>
+<span class="sd">        address.  We might be able to find a way to programmatically do this.</span>
+
+<span class="sd">        #. Create new gmail account</span>
+<span class="sd">        #. Add all emails we think belong to the person via Google API</span>
+<span class="sd">        #. Add new gmail to linked in profile via LinkedIn API</span>
+<span class="sd">        #. Call *find my contacts* on LinkedIn</span>
+<span class="sd">        #. Receive valid contacts</span>
+<span class="sd">        #. Build profile URLS for each contact</span>
+<span class="sd">        #. Scrape profiles</span>
+
+<span class="sd">    .. _any API endpoint: https://dev.twitter.com/faq#26</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

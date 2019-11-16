@@ -4,10 +4,10 @@ beacon.util package
 Submodules
 ----------
 
-beacon.util.domains module
---------------------------
+beacon.util.email module
+------------------------
 
-.. automodule:: beacon.util.domains
+.. automodule:: beacon.util.email
     :members:
     :private-members:
     :undoc-members:

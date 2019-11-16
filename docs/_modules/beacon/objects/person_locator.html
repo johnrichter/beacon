@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.objects.person_locator &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="beacon" href="../../beacon.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">beacon</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../../beacon.html">beacon</a> &raquo;</li>
+      
+    <li>beacon.objects.person_locator</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for beacon.objects.person_locator</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
+
+<span class="kn">from</span> <span class="nn">beacon.util.names</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">retrieve_nicknames_for_name</span><span class="p">,</span>
+    <span class="n">get_fl_name_variations</span><span class="p">,</span>
+    <span class="n">get_fml_name_variations</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="PersonLocator"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator">[docs]</a><span class="k">class</span> <span class="nc">PersonLocator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An object used to locate the online presence of an individual.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">person</span> <span class="o">=</span> <span class="n">person</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_name_representations</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">known_usernames</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enumerate_full_name_representations</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PersonLocator._enumerate_full_name_representations"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator._enumerate_full_name_representations">[docs]</a>    <span class="k">def</span> <span class="nf">_enumerate_full_name_representations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enumerate a person&#39;s full name in the common ways full names can be represented.</span>
+<span class="sd">        Includes common nicknames for the person&#39;s first name and middle name/initial when the</span>
+<span class="sd">        person has a middle name.  Full names generated are intended to be compared to</span>
+<span class="sd">        full names obtained from API services, email servers, etc.</span>
+
+<span class="sd">        For example:</span>
+<span class="sd">        Variants of *James Herbert Bond* include, but aren&#39;t limited to the following:</span>
+
+<span class="sd">        * James Bond</span>
+<span class="sd">        * Bond James</span>
+<span class="sd">        * James Herbert Bond</span>
+<span class="sd">        * James H Bond</span>
+<span class="sd">        * Jimmy Bond</span>
+<span class="sd">        * Bond, James</span>
+<span class="sd">        * Bond, James Herbert</span>
+<span class="sd">        * Bond, Jim Herbert</span>
+
+<span class="sd">        .. todo::</span>
+<span class="sd">            * Migrate to use the `get_[f]ml_name_variations()` functions.</span>
+<span class="sd">            * Remove some of the noise via nickname probability mappings</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fml_patterns</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&#39;{f} {m} {l}&#39;</span><span class="p">,</span>   <span class="s">&#39;{m} {l} {f}&#39;</span><span class="p">,</span>   <span class="s">&#39;{l} {f} {m}&#39;</span><span class="p">,</span>
+            <span class="s">&#39;{f}, {m}, {l}&#39;</span><span class="p">,</span> <span class="s">&#39;{m}, {l}, {f}&#39;</span><span class="p">,</span> <span class="s">&#39;{l}, {f}, {m}&#39;</span><span class="p">,</span>
+            <span class="s">&#39;{l}, {f} {m}&#39;</span>
+        <span class="p">]</span>
+        <span class="n">fl_patterns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;{f} {l}&#39;</span><span class="p">,</span> <span class="s">&#39;{l} {f}&#39;</span><span class="p">,</span> <span class="s">&#39;{l}, {f}&#39;</span><span class="p">]</span>
+        <span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">last_name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">has_middle_name</span><span class="p">():</span>
+            <span class="n">middle_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">middle_name</span>
+
+        <span class="c"># TODO: Remove some of the noise via nickname probability mappings</span>
+        <span class="c"># Build a list of potential first names. E.g. Robert &gt; Bob or Johnathan &gt; John &gt; Jon</span>
+        <span class="n">nick_names</span> <span class="o">=</span> <span class="n">retrieve_nicknames_for_name</span><span class="p">(</span><span class="n">first_name</span><span class="p">)</span>
+        <span class="n">first_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">first_name</span><span class="p">]</span>
+        <span class="n">first_names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">nick_names</span><span class="p">)</span>
+
+        <span class="c"># Generate our list of potential full name variants</span>
+        <span class="n">generated_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">first</span> <span class="ow">in</span> <span class="n">first_names</span><span class="p">:</span>
+            <span class="c"># Add full first/last name variants</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">fl_patterns</span><span class="p">:</span>
+                <span class="n">generated_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">first</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="n">last_name</span><span class="p">))</span>
+
+            <span class="c"># Add full first/middle/last name variants, including middle initial variants</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">fml_patterns</span> <span class="k">if</span> <span class="n">middle_name</span> <span class="k">else</span> <span class="p">[]:</span>
+                <span class="n">generated_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">first</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">middle_name</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="n">last_name</span><span class="p">))</span>
+                <span class="n">generated_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">first</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">middle_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="o">=</span><span class="n">last_name</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_name_representations</span> <span class="o">=</span> <span class="n">generated_names</span>
+</div>
+<div class="viewcode-block" id="PersonLocator._enumerate_probable_usernames"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator._enumerate_probable_usernames">[docs]</a>    <span class="k">def</span> <span class="nf">_enumerate_probable_usernames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a simple list of user names based on a person&#39;s full name.</span>
+
+<span class="sd">        Limit our formatting to only the special symbols in ``._`` and alphanumeric characters in</span>
+<span class="sd">        ``a-zA-Z0-9``.  Usernames of services such as Gmail, Yahoo, Outlook.com, LinkedIn, AngelList,</span>
+<span class="sd">        and Twitter are restricted to these characters despite RFCs allowing more characters (</span>
+<span class="sd">        including unicode in some cases).</span>
+
+<span class="sd">        Email: :rfc:`3696`</span>
+
+<span class="sd">        .. todo::</span>
+<span class="sd">            * Expand our variations to include numbers once we obtain age, birthday, etc</span>
+<span class="sd">            * Translate non-latin characters to their latin equivalent</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">fml_pattern</span> <span class="o">=</span> <span class="s">&#39;{f}{s1}{m}{s2}{l}&#39;</span>
+        <span class="n">common_special_characters</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">]</span>  <span class="c"># &#39;&#39; To represent *no special character*</span>
+        <span class="n">name_variations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">generated_usernames</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="c"># Normalize characters in each name to their decomposed equivalents</span>
+        <span class="n">first_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s">&#39;NFKD&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">combining</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+         <span class="p">])</span>
+        <span class="n">middle_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s">&#39;NFKD&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">middle_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">combining</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="p">])</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">has_middle_name</span><span class="p">()</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="n">last_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s">&#39;NFKD&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">combining</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="c"># Build a list of name variations. E.g. (James, Bond), (J, Bond), or (J, H, Bond)</span>
+        <span class="k">if</span> <span class="n">middle_name</span><span class="p">:</span>
+            <span class="n">name_variations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_fml_name_variations</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+            <span class="n">name_variations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_fml_name_variations</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+            <span class="n">name_variations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_fml_name_variations</span><span class="p">(</span><span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+
+        <span class="n">name_variations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_fl_name_variations</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+        <span class="n">name_variations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_fl_name_variations</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+
+        <span class="c"># Generate names by concatenating them together with combinations of the special symbols</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">name_variations</span><span class="p">:</span>
+            <span class="c"># Each part of the name can be separated by a special character</span>
+            <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">common_special_characters</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>      <span class="c"># First and Last</span>
+                    <span class="n">generated_usernames</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">symbol</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>    <span class="c"># First, Middle, and Last</span>
+                    <span class="n">first</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">name</span>
+                    <span class="c"># We can have combinations of two symbols separating the names</span>
+                    <span class="k">for</span> <span class="n">symbol2</span> <span class="ow">in</span> <span class="n">common_special_characters</span><span class="p">:</span>
+                        <span class="n">generated_usernames</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                            <span class="n">fml_pattern</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">first</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">middle</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="n">last</span><span class="p">,</span> <span class="n">s1</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span> <span class="n">s2</span><span class="o">=</span><span class="n">symbol2</span><span class="p">)</span>
+                        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">probable_usernames</span> <span class="o">=</span> <span class="n">generated_usernames</span>
+</div>
+<div class="viewcode-block" id="PersonLocator._determine_usernames_from_urls"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator._determine_usernames_from_urls">[docs]</a>    <span class="k">def</span> <span class="nf">_determine_usernames_from_urls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mine the person&#39;s URLs and save any usernames found.  Modifies a dictionary of services</span>
+<span class="sd">        to usernames on the person object.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            {</span>
+<span class="sd">                &#39;LinkedIn: [&#39;a_username&#39;],</span>
+<span class="sd">                &#39;AngelList: [&#39;a_username&#39;],</span>
+<span class="sd">                &#39;Twitter&#39;: [&#39;a_different_username&#39;],</span>
+<span class="sd">            }</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">linkedin_url</span><span class="p">:</span>
+            <span class="c"># self.person.usernames[&#39;linkedin&#39;] = linkedin_username</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">angellist_url</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">twitter_url</span><span class="p">:</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="PersonLocator._mine_personal_information_from_social_services"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator._mine_personal_information_from_social_services">[docs]</a>    <span class="k">def</span> <span class="nf">_mine_personal_information_from_social_services</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email_addresses</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mine the all social services for personal information.  Use the person&#39;s existing</span>
+<span class="sd">        username dictionary if ``email_address`` is None</span>
+
+<span class="sd">        :param email_addresses: Email addresses to search for on each service</span>
+<span class="sd">        :return: A dict() of information type to information objects:</span>
+<span class="sd">                 {&#39;email_address&#39;: [&#39;example@gmail.com&#39;]}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># TODO: Ensure that the first run of SocialMiner, it returns all usernames even though</span>
+        <span class="c"># TODO: they were put in the person.usernames dict() before the first call.</span>
+        <span class="k">return</span> <span class="p">{}</span>
+</div>
+<div class="viewcode-block" id="PersonLocator._discover_email_addresses_with_usernames"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator._discover_email_addresses_with_usernames">[docs]</a>    <span class="k">def</span> <span class="nf">_discover_email_addresses_with_usernames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usernames</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Discover valid email addresses using only the usernames in ``usernames``.</span>
+
+<span class="sd">        :param usernames: The usernames to use when discovering new email addresses</span>
+<span class="sd">        :return: A list of new email addresses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+</div>
+<div class="viewcode-block" id="PersonLocator._locate_brute_force"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator._locate_brute_force">[docs]</a>    <span class="k">def</span> <span class="nf">_locate_brute_force</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bluntly search for our person on the world wide web.</span>
+
+<span class="sd">        #. Generate a set of likely usernames minus any usernames already searched for</span>
+<span class="sd">        #. While we can obtain new usernames and email addresses.</span>
+<span class="sd">            #. Find valid email addresses that report the same full name as our person</span>
+<span class="sd">            #. If we were unable to find a user on one of the social services, use the new email</span>
+<span class="sd">               addresses to attempt to find a user on that service</span>
+
+<span class="sd">        Updates ``self.person`` with the most accurate information we can locate</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            Can result in thousands of API calls to LinkedIn, AngelList, Twitter,</span>
+<span class="sd">            etc. Use with caution when searching for lots of people simultaneously.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Generate a list of possible usernames the user could have</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enumerate_probable_usernames</span><span class="p">()</span>
+
+        <span class="c"># Remove already attempted usernames from our generated list</span>
+        <span class="k">for</span> <span class="n">service</span><span class="p">,</span> <span class="n">usernames</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">usernames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">usernames</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">probable_usernames</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+        <span class="c"># Discover valid email addresses that match our person&#39;s name</span>
+        <span class="n">new_email_addresses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discover_email_addresses_with_usernames</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probable_usernames</span>
+        <span class="p">)</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_email_addresses</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># Use the new email addresses to find missing usernames/profile URLs</span>
+            <span class="n">new_information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mine_personal_information_from_social_services</span><span class="p">(</span>
+                <span class="n">email_addresses</span><span class="o">=</span><span class="n">new_email_addresses</span>
+            <span class="p">)</span>
+
+            <span class="c"># Use any new usernames found from the social services to find new email addresses</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_information</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;usernames&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">new_email_addresses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discover_email_addresses_with_usernames</span><span class="p">(</span>
+                    <span class="n">new_information</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;usernames&#39;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_email_addresses</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+<div class="viewcode-block" id="PersonLocator.locate"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.person_locator.PersonLocator.locate">[docs]</a>    <span class="k">def</span> <span class="nf">locate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brute_force</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intelligently search for our person on the world wide web.  Only brute force if necessary</span>
+
+<span class="sd">        #. Use the usernames we parsed from the profile URLs to contact all Social Services</span>
+<span class="sd">        #. While we can obtain new usernames and email addresses</span>
+<span class="sd">            #. Use the same usernames, along with email addresses obtained from the Social Services</span>
+<span class="sd">               to discover new email addresses</span>
+<span class="sd">            #. If we were unable to find a user on one of the social services, use the new email</span>
+<span class="sd">               addresses to attempt to find a user on that service</span>
+<span class="sd">        #. If we still don&#39;t have any email addresses or social service URLs brute force locate</span>
+
+<span class="sd">        Updates ``self.person`` with the most accurate information we can locate</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            ``brute_force`` can result in thousands of API calls to LinkedIn, AngelList, Twitter,</span>
+<span class="sd">            etc. Use with caution when searching for lots of people simultaneously.</span>
+
+<span class="sd">        :param brute_force: Attempt to brute force usernames, email addresses, and social profiles</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Determine any known usernames from a person&#39;s urls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_determine_usernames_from_urls</span><span class="p">()</span>
+
+        <span class="c"># Using the usernames we know are correct, gather information from the social services</span>
+        <span class="n">new_information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mine_personal_information_from_social_services</span><span class="p">()</span>
+
+        <span class="c"># Continuously loop until we can&#39;t find any new email addresses, usernames, or social URLs</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_information</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># Use any new usernames found mined from the social services to find new email addresses</span>
+            <span class="n">new_email_addresses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discover_email_addresses_with_usernames</span><span class="p">(</span>
+                <span class="n">new_information</span><span class="p">[</span><span class="s">&#39;usernames&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_email_addresses</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c"># Use the new email addresses to find missing usernames/profile URLs</span>
+                <span class="n">new_information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mine_personal_information_from_social_services</span><span class="p">(</span>
+                    <span class="n">email_addresses</span><span class="o">=</span><span class="n">new_email_addresses</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_information</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c"># If we *still* don&#39;t have all of our social URLs or email addresses... Engage BEAST MODE.</span>
+        <span class="k">if</span> <span class="n">brute_force</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_locate_brute_force</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.tests.test_name_utils &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="beacon" href="../../beacon.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">beacon</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../../beacon.html">beacon</a> &raquo;</li>
+      
+    <li>beacon.tests.test_name_utils</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for beacon.tests.test_name_utils</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="c"># from beacon.db import create_db, destroy_db</span>
+<span class="kn">from</span> <span class="nn">beacon.util.names</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">retrieve_nicknames_for_name</span><span class="p">,</span>
+    <span class="n">get_fml_name_variations</span><span class="p">,</span>
+    <span class="n">get_fl_name_variations</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="TestNameUtils"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_name_utils.TestNameUtils">[docs]</a><span class="k">class</span> <span class="nc">TestNameUtils</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="c"># @classmethod</span>
+    <span class="c"># def setUpClass(cls):</span>
+    <span class="c">#     create_db()</span>
+    <span class="c">#</span>
+    <span class="c"># @classmethod</span>
+    <span class="c"># def tearDownClass(cls):</span>
+    <span class="c">#     destroy_db()</span>
+
+<div class="viewcode-block" id="TestNameUtils.setUp"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_name_utils.TestNameUtils.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s">&#39;James&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">middle_name</span> <span class="o">=</span> <span class="s">&#39;Herbert&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="s">&#39;Bond&#39;</span>
+</div>
+<div class="viewcode-block" id="TestNameUtils.test_retrieve_nicknames_for_name_with_successful_name"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_name_utils.TestNameUtils.test_retrieve_nicknames_for_name_with_successful_name">[docs]</a>    <span class="k">def</span> <span class="nf">test_retrieve_nicknames_for_name_with_successful_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Can retrieve nicknames for a name that we know has nicknames?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">generated_names</span> <span class="o">=</span> <span class="n">retrieve_nicknames_for_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+        <span class="n">generated_names</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">expected_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Jim&#39;</span><span class="p">,</span> <span class="s">&#39;Jimmie&#39;</span><span class="p">,</span> <span class="s">&#39;Jimmy&#39;</span><span class="p">,</span> <span class="s">&#39;Jamie&#39;</span><span class="p">]</span>
+        <span class="n">expected_names</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="n">generated_names</span><span class="p">,</span> <span class="n">expected_names</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNameUtils.test_retrieve_nicknames_for_name_with_fake_name"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_name_utils.TestNameUtils.test_retrieve_nicknames_for_name_with_fake_name">[docs]</a>    <span class="k">def</span> <span class="nf">test_retrieve_nicknames_for_name_with_fake_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do we receive an empty list for a name without nicknames?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">generated_names</span> <span class="o">=</span> <span class="n">retrieve_nicknames_for_name</span><span class="p">(</span><span class="s">&#39;abcdefg&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="n">generated_names</span><span class="p">,</span> <span class="p">[])</span>
+</div>
+<div class="viewcode-block" id="TestNameUtils.test_get_fml_username_variations"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_name_utils.TestNameUtils.test_get_fml_username_variations">[docs]</a>    <span class="k">def</span> <span class="nf">test_get_fml_username_variations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Are all of the first, middle, and last name variations generated, including initials?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">generated_usernames</span> <span class="o">=</span> <span class="n">get_fml_name_variations</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">middle_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="bp">True</span>
+        <span class="p">)</span>
+        <span class="n">generated_usernames</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">expected_usernames</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s">&#39;James&#39;</span><span class="p">,</span> <span class="s">&#39;Herbert&#39;</span><span class="p">,</span> <span class="s">&#39;Bond&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;J&#39;</span><span class="p">,</span> <span class="s">&#39;Herbert&#39;</span><span class="p">,</span> <span class="s">&#39;Bond&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;James&#39;</span><span class="p">,</span> <span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="s">&#39;Bond&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s">&#39;James&#39;</span><span class="p">,</span> <span class="s">&#39;Herbert&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;J&#39;</span><span class="p">,</span> <span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="s">&#39;Bond&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;J&#39;</span><span class="p">,</span> <span class="s">&#39;Herbert&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s">&#39;James&#39;</span><span class="p">,</span> <span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;J&#39;</span><span class="p">,</span> <span class="s">&#39;H&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">expected_usernames</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="n">generated_usernames</span><span class="p">,</span> <span class="n">expected_usernames</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestNameUtils.test_get_fl_username_variations"><a class="viewcode-back" href="../../../generated/beacon.tests.html#beacon.tests.test_name_utils.TestNameUtils.test_get_fl_username_variations">[docs]</a>    <span class="k">def</span> <span class="nf">test_get_fl_username_variations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Are all of hte first and last name variations generated, including initials?</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">generated_usernames</span> <span class="o">=</span> <span class="n">get_fl_name_variations</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="bp">True</span>
+        <span class="p">)</span>
+        <span class="n">generated_usernames</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">expected_usernames</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s">&#39;James&#39;</span><span class="p">,</span> <span class="s">&#39;Bond&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;J&#39;</span><span class="p">,</span> <span class="s">&#39;Bond&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;James&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;J&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">expected_usernames</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="n">generated_usernames</span><span class="p">,</span> <span class="n">expected_usernames</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

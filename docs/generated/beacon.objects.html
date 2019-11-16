@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.objects package &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="beacon package" href="beacon.html"/>
+        <link rel="next" title="beacon.tests package" href="beacon.tests.html"/>
+        <link rel="prev" title="beacon.db package" href="beacon.db.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">beacon</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="beacon.html">beacon package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="beacon.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="beacon.db.html">beacon.db package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">beacon.objects package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beacon.tests.html">beacon.tests package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beacon.util.html">beacon.util package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="beacon.html#module-beacon">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">beacon</a> &raquo;</li>
+      
+          <li><a href="beacon.html">beacon package</a> &raquo;</li>
+      
+    <li>beacon.objects package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/generated/beacon.objects.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="beacon-objects-package">
+<h1>beacon.objects package<a class="headerlink" href="#beacon-objects-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-beacon.objects.angellist_miner">
+<span id="beacon-objects-angellist-miner-module"></span><h2>beacon.objects.angellist_miner module<a class="headerlink" href="#module-beacon.objects.angellist_miner" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beacon.objects.angellist_miner.AngelListMiner">
+<em class="property">class </em><code class="descclassname">beacon.objects.angellist_miner.</code><code class="descname">AngelListMiner</code><a class="reference internal" href="../_modules/beacon/objects/angellist_miner.html#AngelListMiner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.angellist_miner.AngelListMiner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Retrieves information about an AngelList user.</p>
+<p>profile picture, and full name.  We may be able to parse the bio, what_i_do
+and what_ive_built, for email and username information.</p>
+<p>API Endpoints:
+* GET /users/search</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>slug</em> - The URL slug of the desired user. i.e. <a class="reference external" href="https://angel.co">https://angel.co</a>/{slug}</li>
+<li><em>md5</em> - An MD5 hex hash of the email address of the desired user.</li>
+</ul>
+</div></blockquote>
+<p>Field Names (that we care about):
+* <em>aboutme_url</em> - A URL to the person&#8217;s about.me profile
+* <em>behance_url</em> - A URL to the person&#8217;s Behance.net profile
+* <em>blog_url</em> - A URL to the person&#8217;s blog, possibly a personal website
+* <em>online_bio_url</em> - A URL to the person&#8217;s online bio, possibly a personal website
+* <em>twitter_url</em> - A URL to the person&#8217;s Twitter profile
+* <em>facebook_url</em> - A URL to the person&#8217;s Facebook profile
+* <em>linkedin_url</em> - A URL to the person&#8217;s LinkedIn profile
+* <em>angellist_url</em> - A URL to the person&#8217;s AngelList profile (this is redundant)
+* <em>github_url</em> - A URL to the person&#8217;s GitHub profile
+* <em>dribble_url</em> - A URL to the person&#8217;s Dribble profile
+* <em>resume_url</em> - A URL to the person&#8217;s resume.  May be a pdf, docx, website, etc
+* <em>image</em> - A URL to the person&#8217;s profile picture
+* <em>name</em> - The person&#8217;s full name, short name, or nickname
+* <em>what_i_do</em> - A blurb about the person&#8217;s career, may contain email/username information
+* <em>what_ive_built</em> - A blurb abut the person&#8217;s achievements, may contain email/username</p>
+<blockquote>
+<div>information</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-beacon.objects.email_miner">
+<span id="beacon-objects-email-miner-module"></span><h2>beacon.objects.email_miner module<a class="headerlink" href="#module-beacon.objects.email_miner" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beacon.objects.email_miner.EmailMiner">
+<em class="property">class </em><code class="descclassname">beacon.objects.email_miner.</code><code class="descname">EmailMiner</code><a class="reference internal" href="../_modules/beacon/objects/email_miner.html#EmailMiner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.email_miner.EmailMiner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An object to determine email address validity and similarity to an individual across a
+variety of popular public and private email services.</p>
+<p>According to <span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc5321.html"><strong>RFC 5321</strong></a> section 3.5, the <code class="docutils literal"><span class="pre">VRFY</span></code> command exists to verify if a username
+exists and <strong>may</strong> include the full name of the user.  These commands are commonly disabled
+on most services for security reasons (e.g. deter spammers), including authenticated sessions.</p>
+<div class="code highlight-python"><div class="highlight"><pre>rcpt to: &lt;somereallylongemailaddressthatdoesntwork584@gmail.com&gt;
+250 2.1.5 OK i199sm3826946qhc.44 - gsmtp
+vrfy &lt;somereallylongemailaddressthatdoesntwork584@gmail.com&gt;
+252 2.1.5 Send some mail, I&#39;ll try my best d10sm3853854qhc.36 - gsmtp
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="beacon.objects.email_miner.EmailMiner.email_services">
+<code class="descname">email_services</code><em class="property"> = ['aol.com', 'atmail.com', 'fastmail.com', 'getanemailaddress.info', 'gmail.com', 'gmx.com', 'gmx.net', 'gmx.us', 'hushmail.com', 'hushmail.me', 'hush.com', 'hush.ai', 'mac.hush.com', 'icloud.com', 'me.com', 'lycos.com', 'mail.com', 'email.com', 'outlook.com', 'hotmail.com', 'protonmail.com', 'rediffmail.com', 'runbox.com', 'yahoo.com', 'yahdex.com', 'zoho.com']</em><a class="headerlink" href="#beacon.objects.email_miner.EmailMiner.email_services" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.email_miner.EmailMiner.get_email_addresses_with_usernames">
+<code class="descname">get_email_addresses_with_usernames</code><span class="sig-paren">(</span><em>usernames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/email_miner.html#EmailMiner.get_email_addresses_with_usernames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.email_miner.EmailMiner.get_email_addresses_with_usernames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enumerate possible email addresses for <code class="docutils literal"><span class="pre">usernames</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>usernames</strong> &#8211; A list of usernames</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of email addresses</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.email_miner.EmailMiner.is_valid_email_domain">
+<code class="descname">is_valid_email_domain</code><span class="sig-paren">(</span><em>domain</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/email_miner.html#EmailMiner.is_valid_email_domain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.email_miner.EmailMiner.is_valid_email_domain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beacon.objects.email_miner.EmailMiner.max_email_address_length">
+<code class="descname">max_email_address_length</code><em class="property"> = 254</em><a class="headerlink" href="#beacon.objects.email_miner.EmailMiner.max_email_address_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beacon.objects.person">
+<span id="beacon-objects-person-module"></span><h2>beacon.objects.person module<a class="headerlink" href="#module-beacon.objects.person" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beacon.objects.person.Person">
+<em class="property">class </em><code class="descclassname">beacon.objects.person.</code><code class="descname">Person</code><span class="sig-paren">(</span><em>first_name</em>, <em>last_name</em>, <em>middle_name=None</em>, <em>domains=None</em>, <em>linkedin_url=None</em>, <em>angellist_url=None</em>, <em>twitter_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person.html#Person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person.Person" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An object to represent a person and their online presence.</p>
+<dl class="method">
+<dt id="beacon.objects.person.Person.has_middle_name">
+<code class="descname">has_middle_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person.html#Person.has_middle_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person.Person.has_middle_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if a <cite>Person</cite> has a middle name</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beacon.objects.person_locator">
+<span id="beacon-objects-person-locator-module"></span><h2>beacon.objects.person_locator module<a class="headerlink" href="#module-beacon.objects.person_locator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beacon.objects.person_locator.PersonLocator">
+<em class="property">class </em><code class="descclassname">beacon.objects.person_locator.</code><code class="descname">PersonLocator</code><span class="sig-paren">(</span><em>person</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An object used to locate the online presence of an individual.</p>
+<dl class="method">
+<dt id="beacon.objects.person_locator.PersonLocator._determine_usernames_from_urls">
+<code class="descname">_determine_usernames_from_urls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator._determine_usernames_from_urls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator._determine_usernames_from_urls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mine the person&#8217;s URLs and save any usernames found.  Modifies a dictionary of services
+to usernames on the person object.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;LinkedIn: [&#39;</span><span class="n">a_username</span><span class="s">&#39;],</span>
+    <span class="s">&#39;AngelList: [&#39;</span><span class="n">a_username</span><span class="s">&#39;],</span>
+    <span class="s">&#39;Twitter&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;a_different_username&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.person_locator.PersonLocator._discover_email_addresses_with_usernames">
+<code class="descname">_discover_email_addresses_with_usernames</code><span class="sig-paren">(</span><em>usernames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator._discover_email_addresses_with_usernames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator._discover_email_addresses_with_usernames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discover valid email addresses using only the usernames in <code class="docutils literal"><span class="pre">usernames</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>usernames</strong> &#8211; The usernames to use when discovering new email addresses</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of new email addresses</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.person_locator.PersonLocator._enumerate_full_name_representations">
+<code class="descname">_enumerate_full_name_representations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator._enumerate_full_name_representations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator._enumerate_full_name_representations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enumerate a person&#8217;s full name in the common ways full names can be represented.
+Includes common nicknames for the person&#8217;s first name and middle name/initial when the
+person has a middle name.  Full names generated are intended to be compared to
+full names obtained from API services, email servers, etc.</p>
+<p>For example:
+Variants of <em>James Herbert Bond</em> include, but aren&#8217;t limited to the following:</p>
+<ul class="simple">
+<li>James Bond</li>
+<li>Bond James</li>
+<li>James Herbert Bond</li>
+<li>James H Bond</li>
+<li>Jimmy Bond</li>
+<li>Bond, James</li>
+<li>Bond, James Herbert</li>
+<li>Bond, Jim Herbert</li>
+</ul>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<ul class="last simple">
+<li>Migrate to use the <cite>get_[f]ml_name_variations()</cite> functions.</li>
+<li>Remove some of the noise via nickname probability mappings</li>
+</ul>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.person_locator.PersonLocator._enumerate_probable_usernames">
+<code class="descname">_enumerate_probable_usernames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator._enumerate_probable_usernames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator._enumerate_probable_usernames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a simple list of user names based on a person&#8217;s full name.</p>
+<p>Limit our formatting to only the special symbols in <code class="docutils literal"><span class="pre">._</span></code> and alphanumeric characters in
+<code class="docutils literal"><span class="pre">a-zA-Z0-9</span></code>.  Usernames of services such as Gmail, Yahoo, Outlook.com, LinkedIn, AngelList,
+and Twitter are restricted to these characters despite RFCs allowing more characters (
+including unicode in some cases).</p>
+<p>Email: <span class="target" id="index-2"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc3696.html"><strong>RFC 3696</strong></a></p>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<ul class="last simple">
+<li>Expand our variations to include numbers once we obtain age, birthday, etc</li>
+<li>Translate non-latin characters to their latin equivalent</li>
+</ul>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.person_locator.PersonLocator._locate_brute_force">
+<code class="descname">_locate_brute_force</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator._locate_brute_force"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator._locate_brute_force" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bluntly search for our person on the world wide web.</p>
+<ol class="arabic">
+<li><p class="first">Generate a set of likely usernames minus any usernames already searched for</p>
+</li>
+<li><dl class="first docutils">
+<dt>While we can obtain new usernames and email addresses.</dt>
+<dd><ol class="first last arabic simple">
+<li>Find valid email addresses that report the same full name as our person</li>
+<li>If we were unable to find a user on one of the social services, use the new email
+addresses to attempt to find a user on that service</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+<p>Updates <code class="docutils literal"><span class="pre">self.person</span></code> with the most accurate information we can locate</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Can result in thousands of API calls to LinkedIn, AngelList, Twitter,
+etc. Use with caution when searching for lots of people simultaneously.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.person_locator.PersonLocator._mine_personal_information_from_social_services">
+<code class="descname">_mine_personal_information_from_social_services</code><span class="sig-paren">(</span><em>email_addresses=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator._mine_personal_information_from_social_services"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator._mine_personal_information_from_social_services" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mine the all social services for personal information.  Use the person&#8217;s existing
+username dictionary if <code class="docutils literal"><span class="pre">email_address</span></code> is None</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>email_addresses</strong> &#8211; Email addresses to search for on each service</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dict() of information type to information objects:
+{&#8216;email_address&#8217;: [<a class="reference external" href="mailto:'example&#37;&#52;&#48;gmail&#46;com">'example<span>&#64;</span>gmail<span>&#46;</span>com</a>&#8216;]}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beacon.objects.person_locator.PersonLocator.locate">
+<code class="descname">locate</code><span class="sig-paren">(</span><em>brute_force=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/objects/person_locator.html#PersonLocator.locate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.person_locator.PersonLocator.locate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intelligently search for our person on the world wide web.  Only brute force if necessary</p>
+<ol class="arabic">
+<li><p class="first">Use the usernames we parsed from the profile URLs to contact all Social Services</p>
+</li>
+<li><dl class="first docutils">
+<dt>While we can obtain new usernames and email addresses</dt>
+<dd><ol class="first last arabic simple">
+<li>Use the same usernames, along with email addresses obtained from the Social Services
+to discover new email addresses</li>
+<li>If we were unable to find a user on one of the social services, use the new email
+addresses to attempt to find a user on that service</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">If we still don&#8217;t have any email addresses or social service URLs brute force locate</p>
+</li>
+</ol>
+<p>Updates <code class="docutils literal"><span class="pre">self.person</span></code> with the most accurate information we can locate</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><code class="docutils literal"><span class="pre">brute_force</span></code> can result in thousands of API calls to LinkedIn, AngelList, Twitter,
+etc. Use with caution when searching for lots of people simultaneously.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>brute_force</strong> &#8211; Attempt to brute force usernames, email addresses, and social profiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beacon.objects.social_miner">
+<span id="beacon-objects-social-miner-module"></span><h2>beacon.objects.social_miner module<a class="headerlink" href="#module-beacon.objects.social_miner" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beacon.objects.social_miner.SocialMiner">
+<em class="property">class </em><code class="descclassname">beacon.objects.social_miner.</code><code class="descname">SocialMiner</code><a class="reference internal" href="../_modules/beacon/objects/social_miner.html#SocialMiner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.objects.social_miner.SocialMiner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An object to search LinkedIn, AngelList, and Twitter for accounts matching certain usernames
+and email addresses and gathering account information about that individual.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Twitter does not support <em>obtaining</em> or <em>searching for</em> email addresses from <strong>`any API
+endpoint`_</strong>. However may be able to parse the user&#8217;s own description for email addresses.
+It may be possible to use the <em>import my contacts</em> feature somehow to get around this
+limitation. Other notable information we can gather is the user&#8217;s name, profile picture,
+and banner picture.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">AngelList allows lookup by URL slug (i.e. the link text a user has chosen for their profile,
+e.g. James Bond could be using slug: james-bond) or MD5 hash of a user&#8217;s email address.
+Other notable information we can gather is blog_url, online_bio_url, twitter_url,
+facebook_url, linkedin_url, angellist_url, dribble_url, github_url, resume_url,
+profile picture, and full name.  We may be able to parse the bio, what_i_do
+and what_ive_built, for email and username information.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">LinkedIn, for privacy and security reasons, has locked down on their API and doesn&#8217;t allow
+searching for users. Period.  They only expose the controls necessary to write third
+party apps which act on behalf of users, only if authorized by that user.  The only thing we
+could do is simulate interacting with the LinkedIn search while masquerading as a
+real person with an account and scrape the results.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Both Twitter and LinkedIn offer a <em>find my contacts</em> feature to find people by email
+address.  We might be able to find a way to programmatically do this.</p>
+<ol class="last arabic simple">
+<li>Create new gmail account</li>
+<li>Add all emails we think belong to the person via Google API</li>
+<li>Add new gmail to linked in profile via LinkedIn API</li>
+<li>Call <em>find my contacts</em> on LinkedIn</li>
+<li>Receive valid contacts</li>
+<li>Build profile URLS for each contact</li>
+<li>Scrape profiles</li>
+</ol>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-beacon.objects">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-beacon.objects" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="beacon.tests.html" class="btn btn-neutral float-right" title="beacon.tests package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="beacon.db.html" class="btn btn-neutral" title="beacon.db package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

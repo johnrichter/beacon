@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.util.names &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="beacon" href="../../beacon.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">beacon</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../../beacon.html">beacon</a> &raquo;</li>
+      
+    <li>beacon.util.names</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for beacon.util.names</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">beacon.db</span> <span class="kn">import</span> <span class="n">db_connect</span>
+<span class="kn">from</span> <span class="nn">beacon.db.models</span> <span class="kn">import</span> <span class="n">Name</span>
+
+
+<div class="viewcode-block" id="retrieve_nicknames_for_name"><a class="viewcode-back" href="../../../generated/beacon.util.html#beacon.util.names.retrieve_nicknames_for_name">[docs]</a><span class="k">def</span> <span class="nf">retrieve_nicknames_for_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve nicknames for `name` from the database</span>
+
+<span class="sd">    :param name: The name that might have nicknames</span>
+<span class="sd">    :return: A list of nicknames.  Empty list if nicknames were not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nick_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">db_connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="c"># Look for the name in the database and append all nicknames to our nick_names list</span>
+        <span class="n">db_name</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Name</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">real_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">db_name</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">db_name</span><span class="o">.</span><span class="n">nick_names</span><span class="p">:</span>
+                <span class="n">nick_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nick</span><span class="o">.</span><span class="n">real_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nick_names</span>
+
+</div>
+<div class="viewcode-block" id="get_fml_name_variations"><a class="viewcode-back" href="../../../generated/beacon.util.html#beacon.util.names.get_fml_name_variations">[docs]</a><span class="k">def</span> <span class="nf">get_fml_name_variations</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">include_initials</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate different variations of a full name containing the first, middle, and last name.</span>
+
+<span class="sd">    :param first_name: The first name</span>
+<span class="sd">    :param middle_name: The middle name</span>
+<span class="sd">    :param last_name: The last name</span>
+<span class="sd">    :param include_initials: Include variations with names abbreviated by their first letter</span>
+<span class="sd">    :return: A list of (first_name, middle_name, last_name) tuples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">variations</span> <span class="o">=</span> <span class="p">[(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">include_initials</span><span class="p">:</span>
+        <span class="n">variations</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">last_name</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">middle_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">last_name</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">middle_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">middle_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">last_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">middle_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">last_name</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">variations</span>
+
+</div>
+<div class="viewcode-block" id="get_fl_name_variations"><a class="viewcode-back" href="../../../generated/beacon.util.html#beacon.util.names.get_fl_name_variations">[docs]</a><span class="k">def</span> <span class="nf">get_fl_name_variations</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">include_initials</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate different variations of a full name containing only the first and last name.</span>
+
+<span class="sd">    :param first_name: The first name</span>
+<span class="sd">    :param last_name: The last name</span>
+<span class="sd">    :param include_initials: Include variations with names abbreviated by their first letter</span>
+<span class="sd">    :return: A list of (first_name, last_name) tuples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">variations</span> <span class="o">=</span> <span class="p">[(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">include_initials</span><span class="p">:</span>
+        <span class="n">variations</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+            <span class="p">(</span><span class="n">first_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">last_name</span><span class="p">),</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">first_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">last_name</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">variations</span>
+</pre></div></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

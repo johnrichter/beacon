@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.objects.email_miner &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="beacon" href="../../beacon.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">beacon</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../../beacon.html">beacon</a> &raquo;</li>
+      
+    <li>beacon.objects.email_miner</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for beacon.objects.email_miner</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">dns.resolver</span>
+
+<div class="viewcode-block" id="EmailMiner"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.email_miner.EmailMiner">[docs]</a><span class="k">class</span> <span class="nc">EmailMiner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An object to determine email address validity and similarity to an individual across a</span>
+<span class="sd">    variety of popular public and private email services.</span>
+
+<span class="sd">    According to :rfc:`5321` section 3.5, the ``VRFY`` command exists to verify if a username</span>
+<span class="sd">    exists and **may** include the full name of the user.  These commands are commonly disabled</span>
+<span class="sd">    on most services for security reasons (e.g. deter spammers), including authenticated sessions.</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        rcpt to: &lt;somereallylongemailaddressthatdoesntwork584@gmail.com&gt;</span>
+<span class="sd">        250 2.1.5 OK i199sm3826946qhc.44 - gsmtp</span>
+<span class="sd">        vrfy &lt;somereallylongemailaddressthatdoesntwork584@gmail.com&gt;</span>
+<span class="sd">        252 2.1.5 Send some mail, I&#39;ll try my best d10sm3853854qhc.36 - gsmtp</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_email_address_length</span> <span class="o">=</span> <span class="mi">254</span>
+    <span class="n">email_services</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">&#39;aol.com&#39;</span><span class="p">,</span> <span class="s">&#39;atmail.com&#39;</span><span class="p">,</span> <span class="s">&#39;fastmail.com&#39;</span><span class="p">,</span> <span class="s">&#39;getanemailaddress.info&#39;</span><span class="p">,</span> <span class="s">&#39;gmail.com&#39;</span><span class="p">,</span> <span class="s">&#39;gmx.com&#39;</span><span class="p">,</span>
+        <span class="s">&#39;gmx.net&#39;</span><span class="p">,</span> <span class="s">&#39;gmx.us&#39;</span><span class="p">,</span> <span class="s">&#39;hushmail.com&#39;</span><span class="p">,</span> <span class="s">&#39;hushmail.me&#39;</span><span class="p">,</span> <span class="s">&#39;hush.com&#39;</span><span class="p">,</span> <span class="s">&#39;hush.ai&#39;</span><span class="p">,</span> <span class="s">&#39;mac.hush.com&#39;</span><span class="p">,</span>
+        <span class="s">&#39;icloud.com&#39;</span><span class="p">,</span> <span class="s">&#39;me.com&#39;</span><span class="p">,</span> <span class="s">&#39;lycos.com&#39;</span><span class="p">,</span> <span class="s">&#39;mail.com&#39;</span><span class="p">,</span> <span class="s">&#39;email.com&#39;</span><span class="p">,</span> <span class="s">&#39;outlook.com&#39;</span><span class="p">,</span> <span class="s">&#39;hotmail.com&#39;</span><span class="p">,</span>
+        <span class="s">&#39;protonmail.com&#39;</span><span class="p">,</span> <span class="s">&#39;rediffmail.com&#39;</span><span class="p">,</span> <span class="s">&#39;runbox.com&#39;</span><span class="p">,</span> <span class="s">&#39;yahoo.com&#39;</span><span class="p">,</span> <span class="s">&#39;yahdex.com&#39;</span><span class="p">,</span> <span class="s">&#39;zoho.com&#39;</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="EmailMiner.get_email_addresses_with_usernames"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.email_miner.EmailMiner.get_email_addresses_with_usernames">[docs]</a>    <span class="k">def</span> <span class="nf">get_email_addresses_with_usernames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usernames</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enumerate possible email addresses for ``usernames``</span>
+
+<span class="sd">        :param usernames: A list of usernames</span>
+<span class="sd">        :return: A list of email addresses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">email_addresses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">username</span> <span class="ow">in</span> <span class="n">usernames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">service</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_services</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s">&#39;@&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">service</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_email_address_length</span><span class="p">:</span>
+                    <span class="n">email_addresses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">username</span> <span class="o">+</span> <span class="s">&#39;@&#39;</span> <span class="o">+</span> <span class="n">service</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">email_addresses</span>
+</div>
+<div class="viewcode-block" id="EmailMiner.is_valid_email_domain"><a class="viewcode-back" href="../../../generated/beacon.objects.html#beacon.objects.email_miner.EmailMiner.is_valid_email_domain">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_email_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">dns</span><span class="o">.</span><span class="n">resolver</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="s">&#39;MX&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">dns</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="n">DNSException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c"># The domain doesn&#39;t exist</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

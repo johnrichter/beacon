@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beacon.db package &mdash; Beacon 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Beacon 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="beacon package" href="beacon.html"/>
+        <link rel="next" title="beacon.objects package" href="beacon.objects.html"/>
+        <link rel="prev" title="beacon package" href="beacon.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Beacon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">beacon</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="beacon.html">beacon package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="beacon.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="">beacon.db package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beacon.objects.html">beacon.objects package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beacon.tests.html">beacon.tests package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beacon.util.html">beacon.util package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="beacon.html#module-beacon">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Beacon</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">beacon</a> &raquo;</li>
+      
+          <li><a href="beacon.html">beacon package</a> &raquo;</li>
+      
+    <li>beacon.db package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/generated/beacon.db.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="beacon-db-package">
+<h1>beacon.db package<a class="headerlink" href="#beacon-db-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-beacon.db.models">
+<span id="beacon-db-models-module"></span><h2>beacon.db.models module<a class="headerlink" href="#module-beacon.db.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beacon.db.models.Base">
+<em class="property">class </em><code class="descclassname">beacon.db.models.</code><code class="descname">Base</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#beacon.db.models.Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Column</td>
+<td>Type</td>
+</tr>
+<tr class="row-even"><td>RealNameID</td>
+<td>Integer</td>
+</tr>
+<tr class="row-odd"><td>NickNameID</td>
+<td>String(100)</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="beacon.db.models.Base._decl_class_registry">
+<code class="descname">_decl_class_registry</code><em class="property"> = &lt;WeakValueDictionary&gt;</em><a class="headerlink" href="#beacon.db.models.Base._decl_class_registry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beacon.db.models.Base.metadata">
+<code class="descname">metadata</code><em class="property"> = MetaData(bind=None)</em><a class="headerlink" href="#beacon.db.models.Base.metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beacon.db.models.Name">
+<em class="property">class </em><code class="descclassname">beacon.db.models.</code><code class="descname">Name</code><span class="sig-paren">(</span><em>real_name=None</em>, <em>nick_names=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/db/models.html#Name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.db.models.Name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.ext.declarative.api.Base</span></code></p>
+<p>A model to represent a first name and its alternative names (i.e. nicknames)</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Column</td>
+<td>Type</td>
+</tr>
+<tr class="row-even"><td>ID</td>
+<td>Integer</td>
+</tr>
+<tr class="row-odd"><td>RealName</td>
+<td>String(100)</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="beacon.db.models.Name._sa_class_manager">
+<code class="descname">_sa_class_manager</code><em class="property"> = &lt;ClassManager of &lt;class 'beacon.db.models.Name'&gt; at 1050665f0&gt;</em><a class="headerlink" href="#beacon.db.models.Name._sa_class_manager" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beacon.db.models.Name.id">
+<code class="descname">id</code><a class="headerlink" href="#beacon.db.models.Name.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beacon.db.models.Name.nick_names">
+<code class="descname">nick_names</code><a class="headerlink" href="#beacon.db.models.Name.nick_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beacon.db.models.Name.real_name">
+<code class="descname">real_name</code><a class="headerlink" href="#beacon.db.models.Name.real_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beacon.db.models.Name.real_names">
+<code class="descname">real_names</code><a class="headerlink" href="#beacon.db.models.Name.real_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beacon.db">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-beacon.db" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="beacon.db.create_db">
+<code class="descclassname">beacon.db.</code><code class="descname">create_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/db.html#create_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.db.create_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the database and populate the Names table.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="beacon.db.db_connect">
+<code class="descclassname">beacon.db.</code><code class="descname">db_connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/db.html#db_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.db.db_connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scope our db session around our transactional operations</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="beacon.db.destroy_db">
+<code class="descclassname">beacon.db.</code><code class="descname">destroy_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/db.html#destroy_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.db.destroy_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop all database tables</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="beacon.db.init_db">
+<code class="descclassname">beacon.db.</code><code class="descname">init_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/beacon/db.html#init_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beacon.db.init_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create all database tables</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="beacon.objects.html" class="btn btn-neutral float-right" title="beacon.objects package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="beacon.html" class="btn btn-neutral" title="beacon package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, John Richter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
